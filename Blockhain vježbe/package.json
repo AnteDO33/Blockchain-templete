@@ -1,0 +1,13 @@
+{
+  "name": "blockchain-vjezbe",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Lokalni frontend za povezivanje MetaMaska i slanje ETH-a.",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=20" }
+}
