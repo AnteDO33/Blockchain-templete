@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="hr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#17634f" />
+    <meta name="description" content="Poveži MetaMask, provjeri stanje i pošalji ETH kolegi iz svog novčanika." />
+    <title>BlockLab · Pošalji ETH kolegi</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" type="module"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Preskoči na sadržaj</a>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="BlockLab početna">
+        <img src="/favicon.svg" width="38" height="38" alt="" />
+        <span>Block<span class="brand-light">Lab</span><small>BLOCKCHAIN VJEŽBE</small></span>
+      </a>
+      <div class="topbar-right">
+        <span class="network-pill" id="network-pill"><span class="dot"></span><span id="network-name">Novčanik nije povezan</span></span>
+        <span class="local-label">Tvoj mali Web3 laboratorij</span>
+      </div>
+    </header>
+
+    <main id="main" class="page">
+      <div class="intro">
+        <div><p class="eyebrow">OD NOVČANIKA DO NOVČANIKA</p><h1>Pošalji ETH kolegi<span>.</span></h1><p class="intro-text">Poveži svoj MetaMask. Unesi adresu. Potvrdi transakciju.</p></div>
+        <span class="intro-mark" aria-hidden="true">↗</span>
+      </div>
+
+      <div class="notice notice-error" id="error-banner" role="alert" hidden><span id="error-text"></span><button id="dismiss-error" type="button" aria-label="Zatvori poruku">×</button></div>
+      <div class="notice notice-info" id="wallet-missing" hidden><span>MetaMask nije otkriven. Otvori stranicu u pregledniku s MetaMask dodatkom ili u MetaMask mobilnom pregledniku.</span><a href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer">Preuzmi MetaMask ↗</a></div>
+
+      <section class="wallet-card" aria-labelledby="wallet-heading">
+        <div class="wallet-main">
+          <div class="wallet-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7V5a2 2 0 0 1 2-2h12v4M4 7h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a3 3 0 0 1-3-3V8a1 1 0 0 1 1-1Z"/><path d="M21 12h-5v5h5M17.5 14.5h.01"/></svg></div>
+          <div><h2 id="wallet-heading">Tvoj novčanik</h2><p id="wallet-caption">Sve počinje povezivanjem.</p></div>
+        </div>
+        <div class="wallet-balance"><span>Raspoloživo stanje</span><strong><span id="balance">—</span> <span class="currency">ETH</span></strong><small id="balance-note">Stanje će se prikazati nakon povezivanja.</small></div>
+        <div class="wallet-actions">
+          <button class="button button-lime" id="connect-wallet" type="button"><svg class="fox-icon" viewBox="0 0 28 26" aria-hidden="true"><path d="m2 2 9 6h6l9-6-3 14-5 7H10l-5-7Z" fill="currentColor"/><path d="m8 13 4 2-2 3m10-5-4 2 2 3M11 20l3 2 3-2" fill="none" stroke="#264d36" stroke-width="1.8"/></svg><span id="connect-label">Poveži MetaMask</span><span aria-hidden="true">↗</span></button>
+          <div class="connected-actions" id="connected-actions" hidden><button class="button button-wallet" id="copy-address" type="button" title="Kopiraj adresu novčanika"><span id="account-short"></span><span aria-hidden="true">⧉</span></button><button class="text-button light" id="disconnect-wallet" type="button">Odspoji</button></div>
+          <span class="wallet-status" id="wallet-status"><span class="dot"></span>Čeka povezivanje</span>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <section class="panel transfer-panel" aria-labelledby="transfer-heading">
+          <div class="panel-heading"><div class="section-title"><span class="section-icon" aria-hidden="true">↗</span><h2 id="transfer-heading">Nova transakcija</h2></div><span class="step-label">SLANJE ETH-a</span></div>
+          <form id="transfer-form" novalidate>
+            <div class="field"><label for="recipient">Adresa kolege <span class="field-tag">Primatelj</span></label><input id="recipient" name="recipient" class="address-input" type="text" placeholder="0x…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="recipient-hint recipient-error" required /><p class="field-error" id="recipient-error" hidden></p><p class="field-hint" id="recipient-hint">Zalijepi adresu novčanika kolege na istoj mreži.</p></div>
+            <div class="field"><label for="amount">Iznos</label><div class="amount-input"><input id="amount" name="amount" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off" aria-describedby="amount-hint amount-error" required /><span>ETH</span></div><p class="field-error" id="amount-error" hidden></p><div class="amount-bottom"><p class="field-hint" id="amount-hint">Naknada za mrežu plaća se dodatno.</p><div class="presets" aria-label="Brzi odabir iznosa"><button type="button" data-amount="0,001">0,001</button><button type="button" data-amount="0,01">0,01</button><button type="button" data-amount="0,1">0,1</button></div></div></div>
+
+            <div class="transaction-summary"><div><span>Mreža</span><strong id="summary-network">—</strong></div><div><span>Iznos slanja</span><strong id="summary-amount">— ETH</strong></div><div><span>Mrežna naknada</span><span>Prikazuje MetaMask</span></div></div>
+            <p class="notice notice-warning" id="network-warning" hidden></p>
+            <button class="button button-primary send-button" id="send-transaction" type="submit" disabled><span id="send-label">Nastavi u MetaMasku</span><span aria-hidden="true">↗</span></button>
+            <p class="form-note" id="form-note">Najprije poveži novčanik da omogućiš slanje.</p>
+          </form>
+        </section>
+
+        <aside class="side-column">
+          <section class="panel guide-panel" aria-labelledby="guide-heading"><p class="eyebrow">TRI JEDNOSTAVNA KORAKA</p><h2 id="guide-heading">Ti imaš kontrolu.</h2><ol class="steps"><li><span>01</span><div><h3>Poveži novčanik</h3><p>Odaberi račun u MetaMasku i odobri povezivanje.</p></div></li><li><span>02</span><div><h3>Unesi podatke kolege</h3><p>Provjeri adresu, iznos i mrežu prije slanja.</p></div></li><li><span>03</span><div><h3>Potvrdi u MetaMasku</h3><p>Pregledaj naknadu i potvrdi. Ovdje prati status.</p></div></li></ol></section>
+          <section class="testnet-card" aria-labelledby="testnet-heading"><span class="testnet-icon" aria-hidden="true">⚗</span><div><h2 id="testnet-heading">Prvo malo vježbe?</h2><p>Na Sepolia mreži šalješ testni ETH bez stvarne vrijednosti. I kolega treba koristiti Sepoliju.</p><button id="switch-sepolia" class="text-button" type="button" disabled>Prebaci na Sepoliju <span aria-hidden="true">↗</span></button></div></section>
+        </aside>
+      </div>
+
+      <section class="panel activity-panel" aria-labelledby="activity-heading"><div class="panel-heading"><div class="section-title"><span class="section-icon" aria-hidden="true">◷</span><h2 id="activity-heading">Status transakcije</h2></div><span class="step-label">OVA SESIJA</span></div><div class="activity-empty" id="activity-empty"><span class="empty-icon" aria-hidden="true">⇄</span><div><h3>Spremno za prvi prijenos</h3><p>Ovdje ćeš vidjeti status i potvrdu svoje transakcije.</p></div></div><div id="transaction-details" class="transaction-details" aria-live="polite" hidden><div class="tx-top"><strong id="transaction-status"></strong><span id="transaction-network"></span></div><p id="transaction-description"></p><dl class="tx-data"><div><dt>Primatelj</dt><dd id="transaction-recipient"></dd></div><div><dt>Hash transakcije</dt><dd id="transaction-hash"></dd></div></dl><div class="tx-actions"><a id="transaction-explorer" target="_blank" rel="noopener noreferrer" hidden>Pogledaj u exploreru ↗</a><button id="check-transaction" class="text-button" type="button">Provjeri status</button></div></div></section>
+
+      <footer><span class="footer-brand">BlockLab <span>/</span> Blockchain vježbe</span><span>Potpisivanje i slanje odvijaju se u tvom MetaMasku.</span></footer>
+    </main>
+    <div class="toast" id="toast" role="status" hidden></div>
+    <noscript><p class="notice">Uključi JavaScript za povezivanje s MetaMaskom i slanje transakcija.</p></noscript>
+  </body>
+</html>
